@@ -7,7 +7,7 @@
 
 * If project is set up, to start it - run `make start`, to stop - `make stop`
 
-* `cd companies`
+* `cd companies-vue-app`
 * `npm run serve`
 
 * Open in browser: http://localhost:8080/ .
