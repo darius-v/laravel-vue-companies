@@ -1,6 +1,6 @@
 <template>
   <div>
-      <Button label="New" @click="sendData">test</Button>
+      <Button label="New" @click="openNewCompanyDialog">test</Button>
 
       <CompanyForm  v-model:displayForm="displayForm" />
 
@@ -14,11 +14,6 @@ import CompanyForm from "./CompanyForm";
 
 export default {
     name: 'NewCompany',
-    // methods: {
-    //     openModal() {
-    //         this.$emit('open_new_company_modal');
-    //     },
-    // },
     data() {
         return {
             displayForm: false,
@@ -28,27 +23,11 @@ export default {
         Button,
         CompanyForm
     },
-    // setup(props, context) {
-    //     console.log(context);
-    //     console.log('darius');
-    //     function openModal() {
-    //         context.emit('open_new_company_modal');
-    //         console.log('emitted');
-    //     }
-    //     return {
-    //         openModal
-    //     }
-    // },
     methods: {
-        sendData() {
-            // console.log('sendData in new company');
-            // this.$emit('sending-start');
-            //
-            // this.$emit('sending-complete');
+        openNewCompanyDialog() {
             this.displayForm = true;
         }
     }
-    // emits: ['open_new_company_modal'],
 }
 </script>
 

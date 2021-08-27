@@ -1,10 +1,10 @@
 <template>
 
+    <!-- that way visibility is controller from other component  -->
     <Dialog  header="Header" :visible="displayForm" @update:visible="$emit('update:display-form', $event)">
         Content
 
     </Dialog>
-<!--    <button @click="openModal"></button>-->
 </template>
 
 <script>
@@ -21,17 +21,7 @@ export default {
     props: {
         displayForm: Boolean,
     },
-    // methods: {
-    //     openModal() {
-    //         // this.displayModal = true;
-    //         this.display = true;
-    //     },
-    // },
-    // methods: {
-        // started() {
-        //     console.log('started in company form');
-        // }
-    // },
+
     name: 'CompanyForm',
     components: {
         Dialog,
