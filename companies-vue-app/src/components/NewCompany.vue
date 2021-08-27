@@ -1,69 +1,68 @@
 <template>
   <div>
-      <Button label="New" @click="openModal"></Button>
-      <Dialog header="Header" v-model:visible="display" >
-          Content
-<!--          <template #footer>-->
-<!--              <Button label="Cancel" icon="pi pi-times" class="p-button-text"/>-->
-<!--              <Button label="Create" icon="pi pi-check" autofocus />-->
-<!--          </template>-->
-      </Dialog>
+      <Button label="New" @click="sendData">test</Button>
+
+      <CompanyForm  v-model:displayForm="displayForm" />
+
   </div>
 </template>
 
 <script>
 
-// import PrimeVue from 'primevue';
 import Button from "primevue/button";
-import Dialog from 'primevue/dialog';
+import CompanyForm from "./CompanyForm";
 
 export default {
+    name: 'NewCompany',
+    // methods: {
+    //     openModal() {
+    //         this.$emit('open_new_company_modal');
+    //     },
+    // },
     data() {
         return {
-            display: false,
-            modal: true
+            displayForm: false,
         }
     },
-    methods: {
-        openModal() {
-            this.displayModal = true;
-            // this.displayModal = true;
-            this.display = true;
-        },
-    },
-    name: 'NewCompany',
     components: {
         Button,
-        Dialog,
-        // PrimeVue
+        CompanyForm
     },
+    // setup(props, context) {
+    //     console.log(context);
+    //     console.log('darius');
+    //     function openModal() {
+    //         context.emit('open_new_company_modal');
+    //         console.log('emitted');
+    //     }
+    //     return {
+    //         openModal
+    //     }
+    // },
+    methods: {
+        sendData() {
+            // console.log('sendData in new company');
+            // this.$emit('sending-start');
+            //
+            // this.$emit('sending-complete');
+            this.displayForm = true;
+        }
+    }
+    // emits: ['open_new_company_modal'],
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* todo use bootstrap */
+
     div {
         border: 1px solid;
         text-align: left;
     }
 
-.p-button {
-    margin: 0.3rem .5rem;
-    min-width: 10rem;
-}
+    .p-button {
+        margin: 0.3rem .5rem;
+        min-width: 10rem;
+    }
 
-p {
-    margin: 0;
-}
-
-.confirmation-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.p-dialog .p-button {
-    min-width: 6rem;
-}
 </style>

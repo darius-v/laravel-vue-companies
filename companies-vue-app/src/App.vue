@@ -1,14 +1,17 @@
 <template>
   <NewCompany/>
+    <HelloWorld />
 </template>
 
 <script>
 import NewCompany from './components/NewCompany.vue'
+import HelloWorld from "./components/HelloWorld.vue";
 
 export default {
   name: 'App',
   components: {
-    NewCompany
+    NewCompany,
+      HelloWorld,
   }
 }
 </script>
