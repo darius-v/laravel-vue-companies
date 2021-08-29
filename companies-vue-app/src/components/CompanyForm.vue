@@ -1,8 +1,24 @@
 <template>
 
     <!-- that way visibility is controller from other component  -->
-    <Dialog  header="Header" :visible="displayForm" @update:visible="$emit('update:display-form', $event)">
-        Content
+    <Dialog  header="Company" :visible="displayForm" @update:visible="$emit('update:display-form', $event)">
+        <h5>Name</h5>
+        <InputText type="text" v-model="name" />
+
+        <h5>Email</h5>
+        <InputText type="email" v-model="email" />
+
+        <h5>Phone</h5>
+        <InputText type="text" v-model="phone" />
+
+<!--        todo - after company is created so could assign-->
+<!--        <h5>Logo</h5>-->
+<!--        <FileUpload name="demo[]" url="./upload" />-->
+
+        <div>
+            <Button @click="addCompany" label="Submit" />
+        </div>
+
 
     </Dialog>
 </template>
@@ -10,12 +26,35 @@
 <script>
 
 import Dialog from 'primevue/dialog';
+import InputText from 'primevue/inputtext';
+// import FileUpload from 'primevue/fileupload';
+import Button from 'primevue/button';
 
 export default {
     data() {
         return {
             display: this.displayForm,  // getting from prop
-            modal: true
+
+            name: '',
+            email: '',
+            phone: ''
+        }
+    },
+    methods: {
+        async addCompany() {
+            console.log('test' + this.name);
+            /*const res =*/ await fetch('http://localhost:8000', {
+            // /*const res =*/ await fetch('https://api.openweathermap.org/data/2.5/weather?q={vilnius}&appid={API%20key}', {
+                method: 'GET'
+                // method: 'POST',
+                // headers: {
+                //     'Content-type': 'application/json'
+                // },
+                // body: JSON.stringify({name: this.name})
+            })
+
+            // const company = await res.json();
+            // todo add to array of companies, array can be in different component
         }
     },
     props: {
@@ -25,17 +64,16 @@ export default {
     name: 'CompanyForm',
     components: {
         Dialog,
+        InputText,
+        // FileUpload,
+        Button
     },
-
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-div {
-    border: 1px solid;
-    text-align: left;
-}
+
 
 .p-button {
     margin: 0.3rem .5rem;
