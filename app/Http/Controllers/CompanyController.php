@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-//    public function index()
-//    {
-//        return Article::all();
-//    }
+    public function index()
+    {
+        return Company::all();
+    }
 //
 //    public function show(Article $article)
 //    {
 //        return $article;
 //    }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $company = new Company();
 

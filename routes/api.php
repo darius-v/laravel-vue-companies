@@ -20,9 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/companies', [CompanyController::class, 'index']);
 Route::post('/companies', [CompanyController::class, 'store']);
 
-//Route::get('companies', 'ArticleController@index');
+
 //Route::get('articles/{id}', 'ArticleController@show');
 
 //Route::put('articles/{id}', 'ArticleController@update');

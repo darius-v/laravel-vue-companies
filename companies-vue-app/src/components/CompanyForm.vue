@@ -44,9 +44,7 @@ export default {
         async addCompany() {
             console.log('test' + this.name);
             // todo use base url
-            /*const res =*/ await fetch('http://localhost:8000/index.php/api/companies', {
-            // /*const res =*/ await fetch('http://localhost:8000/api/companies', {
-
+            await fetch('http://localhost:8000/index.php/api/companies', {
                 method: 'POST',
                 body: JSON.stringify({name: this.name, email: this.email, phone: this.phone})
             })
