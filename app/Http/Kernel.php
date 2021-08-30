@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CorsFix;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -23,7 +24,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
 
         // Added by me:
-        \Fruitcake\Cors\HandleCors::class,
+//        \Fruitcake\Cors\HandleCors::class,
+//        CorsFix::class,
     ];
 
     /**

@@ -43,10 +43,10 @@ export default {
     methods: {
         async addCompany() {
             console.log('test' + this.name);
-            /*const res =*/ await fetch('http://localhost:8000', {
-            // /*const res =*/ await fetch('https://api.openweathermap.org/data/2.5/weather?q={vilnius}&appid={API%20key}', {
-                method: 'GET'
-                // method: 'POST',
+            /*const res =*/ await fetch('http://localhost:8000/index.php/api/companies', {
+            // /*const res =*/ await fetch('http://localhost:8000/api/companies', {
+
+                method: 'POST',
                 // headers: {
                 //     'Content-type': 'application/json'
                 // },
