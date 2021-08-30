@@ -48,11 +48,13 @@ export default {
             // /*const res =*/ await fetch('http://localhost:8000/api/companies', {
 
                 method: 'POST',
-                // headers: {
-                //     'Content-type': 'application/json'
-                // },
                 body: JSON.stringify({name: this.name, email: this.email, phone: this.phone})
             })
+
+            this.name = '';
+            this.email = '';
+            this.phone = '';
+            this.$emit('update:display-form', false);
 
             // const company = await res.json();
             // todo add to array of companies, array can be in different component
