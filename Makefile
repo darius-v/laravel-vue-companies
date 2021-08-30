@@ -1,7 +1,7 @@
 .PHONY: start stop restart init build tests
 
-#include .env
-#export $(shell sed 's/=.*//' .env)
+include .env
+export $(shell sed 's/=.*//' .env)
 
 start:
 	docker-compose up -d

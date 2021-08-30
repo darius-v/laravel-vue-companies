@@ -19,10 +19,15 @@ class CompanyController extends Controller
 
     public function store(Request $request)
     {
-//        $article = Company::create($request->all());
+        $company = new Company();
 
-//        return response()->json($article, 201);
-        return response()->json(['test'], 201);
+        $company->name = $request->json()->get('name') ;
+        $company->email = $request->json()->get('email') ;
+        $company->phone = $request->json()->get('phone') ;
+
+        $company->save();
+
+        return response()->json([], 201);
     }
 
 //    public function update(Request $request, Article $article)
