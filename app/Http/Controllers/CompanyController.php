@@ -31,12 +31,12 @@ class CompanyController extends Controller
         return response()->json([], 201);
     }
 
-//    public function update(Request $request, Article $article)
-//    {
+    public function update(Request $request, Company $company)
+    {
 //        $article->update($request->all());
-//
-//        return response()->json($article, 200);
-//    }
+
+        return response()->json([], 200);
+    }
 //
 //    public function delete(Article $article)
 //    {

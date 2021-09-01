@@ -1,9 +1,10 @@
 <template>
 
-    <!-- that way visibility is controller from other component  -->
+    <!-- that way visibility is controlled from other component  -->
     <Dialog  header="Company" :visible="displayForm" @update:visible="$emit('update:display-form', $event)">
         <h5>Name</h5>
         <InputText type="text" v-model="name" />
+<!--        <InputText type="text" :name="companyBeingEdited.name" />-->
 
         <h5>Email</h5>
         <InputText type="email" v-model="email" />
@@ -19,6 +20,7 @@
             <Button @click="addCompany" label="Submit" />
         </div>
 
+<!--        {{companyBeingEdited.name}}-->
 
     </Dialog>
 </template>
@@ -33,8 +35,7 @@ import Button from 'primevue/button';
 export default {
     data() {
         return {
-            display: this.displayForm,  // getting from prop
-
+            // display: this.displayForm,  // getting from prop
             name: '',
             email: '',
             phone: ''
@@ -60,6 +61,7 @@ export default {
     },
     props: {
         displayForm: Boolean,
+        companyBeingEdited: Object
     },
 
     name: 'CompanyForm',
@@ -75,23 +77,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-
 .p-button {
     margin: 0.3rem .5rem;
     min-width: 10rem;
 }
 
-p {
-    margin: 0;
-}
-
-.confirmation-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.p-dialog .p-button {
-    min-width: 6rem;
-}
 </style>

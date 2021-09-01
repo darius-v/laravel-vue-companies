@@ -23,6 +23,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/companies', [CompanyController::class, 'index']);
 Route::post('/companies', [CompanyController::class, 'store']);
 
+Route::put('companies/{id}', function(Request $request, $id) {
+//    $article = Article::findOrFail($id);
+//    $article->update($request->all());
+//
+//    return $article;
+    return [];
+});
 
 //Route::get('articles/{id}', 'ArticleController@show');
 

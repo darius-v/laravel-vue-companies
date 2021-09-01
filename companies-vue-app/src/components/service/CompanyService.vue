@@ -9,6 +9,13 @@ export default class CompanyService {
             res => res.data
         );
     }
+
+    update(company) {
+        axios.put('http://localhost:8000/api/companies/' + company.id, company)
+            .then(response => {
+                console.log(response);
+            })
+    }
 }
 
 </script>

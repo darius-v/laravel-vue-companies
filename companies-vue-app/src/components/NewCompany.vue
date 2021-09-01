@@ -1,6 +1,6 @@
 <template>
   <div>
-      <Button label="New" @click="openNewCompanyDialog">test</Button>
+      <Button label="New Company" @click="openNewCompanyDialog"></Button>
 
       <CompanyForm  v-model:displayForm="displayForm" />
 
@@ -39,9 +39,9 @@ export default {
         text-align: left;
     }
 
-    .p-button {
-        margin: 0.3rem .5rem;
-        min-width: 10rem;
-    }
+    /*.p-button {*/
+    /*    margin: 0.3rem .5rem;*/
+    /*    min-width: 10rem;*/
+    /*}*/
 
 </style>
