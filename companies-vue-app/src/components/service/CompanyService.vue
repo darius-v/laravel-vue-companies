@@ -11,10 +11,12 @@ export default class CompanyService {
     }
 
     update(company) {
-        axios.put('http://localhost:8000/api/companies/' + company.id, company)
-            .then(response => {
-                console.log(response);
-            })
+        axios.put('http://localhost:8000/api/companies/' + company.id, {
+                name: company.name,
+                email: company.email,
+                phone: company.phone
+            }
+        )
     }
 }
 

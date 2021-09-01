@@ -22,20 +22,28 @@ class CompanyController extends Controller
     {
         $company = new Company();
 
-        $company->name = $request->json()->get('name') ;
-        $company->email = $request->json()->get('email') ;
-        $company->phone = $request->json()->get('phone') ;
+        $this->saveCompanyFromRequest($company, $request);
 
         $company->save();
 
         return response()->json([], 201);
     }
 
-    public function update(Request $request, Company $company)
+    public function update(Request $request, int $id)
     {
-//        $article->update($request->all());
+//        $this->saveCompanyFromRequest($company, $request);
+        $company = Company::findOrFail($id);
+        $company->update($request->all());
 
-        return response()->json([], 200);
+        return response()->json($request->all(), 200);
+    }
+
+    private function saveCompanyFromRequest(Company $company, Request $request)
+    {
+        $company->name = $request->json()->get('name');
+        $company->email = $request->json()->get('email');
+        $company->phone = $request->json()->get('phone');
+
     }
 //
 //    public function delete(Article $article)

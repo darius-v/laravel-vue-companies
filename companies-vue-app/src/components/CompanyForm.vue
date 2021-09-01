@@ -4,8 +4,6 @@
     <Dialog  header="Company" :visible="displayForm" @update:visible="$emit('update:display-form', $event)">
         <h5>Name</h5>
         <InputText type="text" v-model="name" />
-<!--        <InputText type="text" :name="companyBeingEdited.name" />-->
-
         <h5>Email</h5>
         <InputText type="email" v-model="email" />
 
@@ -19,8 +17,6 @@
         <div>
             <Button @click="addCompany" label="Submit" />
         </div>
-
-<!--        {{companyBeingEdited.name}}-->
 
     </Dialog>
 </template>
@@ -61,7 +57,6 @@ export default {
     },
     props: {
         displayForm: Boolean,
-        companyBeingEdited: Object
     },
 
     name: 'CompanyForm',
