@@ -18,10 +18,9 @@
 <!--    Probably could use only one Company form tag, and open same on creating new company -->
     <CompanyForm  v-model:displayForm="displayForm" v-model:companyBeingEdited="companyBeingEdited" />
 
-    <Dialog  header="Company 2" :visible="displayForm" @update:visible="$emit('update:display-form', $event)">
+    <Dialog  header="Company 2" :visible="displayEditForm" @update:visible="$emit('update:display-edit-form', $event)">
         <h5>Name</h5>
         <InputText type="text" v-model="companyBeingEdited.name" />
-
 
         <h5>Email</h5>
         <InputText type="email" v-model="companyBeingEdited.email" />
@@ -65,7 +64,7 @@ export default {
     data() {
         return {
             companies: null,
-            displayForm: false,
+            displayEditForm: false,
             companyBeingEdited: null
         }
     },
@@ -78,19 +77,13 @@ export default {
     },
     methods: {
         edit(company) {
-            if (typeof company != "undefined") {
-                console.log(company.name );
-            } else {
-                console.log('undf');
-            }
-
-            this.displayForm = true;
+            this.displayEditForm = true;
             this.companyBeingEdited = company;
         },
         updateCompany(company) {
-            console.log('updating');
             this.companyService.update(company);
-        }
+            this.displayEditForm = false;
+        },
     }
 }
 </script>
