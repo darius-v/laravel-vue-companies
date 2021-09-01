@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/companies', [CompanyController::class, 'index']);
 Route::post('/companies', [CompanyController::class, 'store']);
 Route::put('companies/{id}', [CompanyController::class, 'update']);
+Route::post('companies/{id}/logo', [CompanyController::class, 'uploadLogo']);
 
 
 //Route::get('articles/{id}', 'ArticleController@show');

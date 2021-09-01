@@ -16,9 +16,9 @@
     </DataTable>
 
 <!--    Probably could use only one Company form tag, and open same on creating new company -->
-    <CompanyForm  v-model:displayForm="displayForm" v-model:companyBeingEdited="companyBeingEdited" />
+    <CompanyForm  v-model:displayForm="displayForm" />
 
-    <Dialog  header="Company 2" :visible="displayEditForm" @update:visible="$emit('update:display-edit-form', $event)">
+    <Dialog  header="Company edit" :visible="displayEditForm" @update:visible="$emit('update:display-edit-form', $event)">
         <h5>Name</h5>
         <InputText type="text" v-model="companyBeingEdited.name" />
 
@@ -29,14 +29,27 @@
         <InputText type="text" v-model="companyBeingEdited.phone" />
 
         <!--        todo - after company is created so could assign-->
-        <!--        <h5>Logo</h5>-->
-        <!--        <FileUpload name="demo[]" url="./upload" />-->
-
         <div>
             <Button @click="updateCompany(companyBeingEdited)" label="Submit" />
         </div>
 
+        <h5>Logo - uploads on select file</h5>
+<!--        <FileUpload name="logo[]" url="./api/companies/{{companyBeingEdited.id}}/logo" />-->
+<!--        todo base url use-->
+        <FileUpload name="logo[]" v-bind:url="`localhost:8000/index.php/api/companies/${companyBeingEdited.id}/logo`" />
+
+
+<!--        {{companyBeingEdited.id}}-->
+
+        <div
+            class="static"
+            v-bind:class="{ active: isActive, 'text-danger': hasError }"
+        ></div>
     </Dialog>
+
+<!--    <Dialog :visible="displayUploadForm">-->
+<!--        <FileUpload name="logo[]" url="./upload" />-->
+<!--    </Dialog>-->
 </template>
 
 <script>
@@ -49,6 +62,7 @@ import Button from "primevue/button";
 import CompanyForm from "./components/CompanyForm";
 import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
+import FileUpload from 'primevue/fileupload';
 
 export default {
     name: 'App',
@@ -59,7 +73,8 @@ export default {
         Button,
         CompanyForm,
         Dialog,
-        InputText
+        InputText,
+        FileUpload
     },
     data() {
         return {

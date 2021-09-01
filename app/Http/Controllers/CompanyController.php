@@ -22,7 +22,9 @@ class CompanyController extends Controller
     {
         $company = new Company();
 
-        $this->saveCompanyFromRequest($company, $request);
+        $company->name = $request->json()->get('name');
+        $company->email = $request->json()->get('email');
+        $company->phone = $request->json()->get('phone');
 
         $company->save();
 
@@ -31,19 +33,34 @@ class CompanyController extends Controller
 
     public function update(Request $request, int $id)
     {
-//        $this->saveCompanyFromRequest($company, $request);
         $company = Company::findOrFail($id);
         $company->update($request->all());
 
         return response()->json($request->all(), 200);
     }
 
-    private function saveCompanyFromRequest(Company $company, Request $request)
+    public function uploadLogo(Request $request, int $companyId)
     {
-        $company->name = $request->json()->get('name');
-        $company->email = $request->json()->get('email');
-        $company->phone = $request->json()->get('phone');
+        die('a');
 
+        $request->validate([
+            'file' => 'required|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        $company = Company::findOrFail($companyId);
+
+        if($request->file()) {
+            $file_name = time().'_'.$request->file->getClientOriginalName();
+            $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
+
+//            $fileUpload->name = time().'_'.$request->file->getClientOriginalName();
+//            $fileUpload->path = '/storage/' . $file_path;
+//            $fileUpload->save();
+
+            return response()->json($file_path);
+        }
+
+        return 'test';
     }
 //
 //    public function delete(Article $article)
