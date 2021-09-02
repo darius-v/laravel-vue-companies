@@ -41,7 +41,11 @@ class CompanyController extends Controller
 
     public function uploadLogo(Request $request, int $companyId)
     {
-        die('a');
+
+
+        return response('test');
+
+
 
         $request->validate([
             'file' => 'required|mimes:jpg,jpeg,png|max:2048'

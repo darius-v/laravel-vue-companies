@@ -36,7 +36,8 @@
         <h5>Logo - uploads on select file</h5>
 <!--        <FileUpload name="logo[]" url="./api/companies/{{companyBeingEdited.id}}/logo" />-->
 <!--        todo base url use-->
-        <FileUpload name="logo[]" v-bind:url="`localhost:8000/index.php/api/companies/${companyBeingEdited.id}/logo`" />
+        <FileUpload name="logo[]" v-bind:url="`http://localhost:8000/index.php/api/companies/${companyBeingEdited.id}/logo`" />
+
 
 
 <!--        {{companyBeingEdited.id}}-->

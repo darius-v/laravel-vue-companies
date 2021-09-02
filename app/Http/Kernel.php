@@ -24,7 +24,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
 
         // Added by me:
-//        \Fruitcake\Cors\HandleCors::class,
 //        CorsFix::class,
     ];
 
