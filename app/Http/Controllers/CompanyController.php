@@ -43,28 +43,38 @@ class CompanyController extends Controller
     {
 
 
-        return response('test');
+//        $request->validate([ // todo this create cors error
+//            'file' => 'required|mimes:jpg,jpeg,png|max:2048'
+//        ]);
 
 
-
-        $request->validate([
-            'file' => 'required|mimes:jpg,jpeg,png|max:2048'
-        ]);
 
         $company = Company::findOrFail($companyId);
 
+
         if($request->file()) {
-            $file_name = time().'_'.$request->file->getClientOriginalName();
-            $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
 
-//            $fileUpload->name = time().'_'.$request->file->getClientOriginalName();
-//            $fileUpload->path = '/storage/' . $file_path;
-//            $fileUpload->save();
+            // ten logo[] siuncia bet jei parasayu cia logo[] tai irgi klaida. Neikertu.
+//            $path = $request->file('logo')[]->store('avatars');
 
-            return response()->json($file_path);
+            $files = $request->file('logo');
+
+
+//            print_r($file);
+
+            $name = time().'_'.$files[0]->getClientOriginalName();
+//            $filePath = $request->file('file')->storeAs('uploads', $name, 'public');
+//
+//            $company->logo = '/storage/' . $filePath . '/' . time().'_'.$request->file->getClientOriginalName();;
+//            if (strlen($company->logo) > 256) {
+//                return response(['error' => 'Filename too long ']);
+//            } else {
+//                $company->save();
+//
+//                return response([]);
+//            }
         }
-
-        return 'test';
+        return response([]);
     }
 //
 //    public function delete(Article $article)
