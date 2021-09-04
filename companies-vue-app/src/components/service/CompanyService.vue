@@ -16,12 +16,12 @@ export default class CompanyService {
     }
 
     create(name, email, phone) {
-        axios.post(baseUrl + '/api/companies', {
+        return axios.post(baseUrl + '/api/companies', {
                 name: name,
                 email: email,
                 phone: phone
             }
-        )
+        );
     }
 
     update(company) {

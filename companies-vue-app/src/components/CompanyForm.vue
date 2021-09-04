@@ -2,6 +2,7 @@
 
     <!-- that way visibility is controlled from other component  -->
     <Dialog  header="Company" :visible="displayForm" @update:visible="$emit('update:display-form', $event)">
+        <Message v-for="msg of messages" severity="error" :key="msg">{{msg}}</Message>
         <h5>Name</h5>
         <InputText type="text" v-model="name" />
         <h5>Email</h5>
@@ -27,13 +28,15 @@ import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import CompanyService from "./service/CompanyService";
+import Message from 'primevue/message';
 
 export default {
     data() {
         return {
             name: '',
             email: '',
-            phone: ''
+            phone: '',
+            messages: []
         }
     },
     companyService: null,
@@ -42,15 +45,26 @@ export default {
     },
     methods: {
         async addCompany() {
-            // todo use base url
+            this.companyService.create(this.name, this.email, this.phone)
+                .then(() => {
+                    this.name = '';
+                    this.email = '';
+                    this.phone = '';
+                    this.$emit('update:display-form', false);
+                    this.messages = [];
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
 
-            this.companyService.create(this.name, this.email, this.phone);
-
-            this.name = '';
-            this.email = '';
-            this.phone = '';
-            this.$emit('update:display-form', false);
-
+                        let object = error.response.data.errors;
+                        for (const property in object) {
+                            console.log(`${property}: ${object[property]}`);
+                            this.messages.push(`${object[property]}`);
+                        }
+                    }
+                });
             // todo add to array of companies, array can be in different component
         }
     },
@@ -62,8 +76,8 @@ export default {
     components: {
         Dialog,
         InputText,
-        // FileUpload,
-        Button
+        Button,
+        Message
     },
 }
 </script>
