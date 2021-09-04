@@ -9,6 +9,12 @@ use Throwable;
 
 class CompanyController extends Controller
 {
+    const COMPANY_VALIDATION_RULES = [
+        'name' => 'required|max:1', // todo set back to 256
+        'email' => 'required|max:256',
+        'phone' => 'max:256'
+    ];
+
     public function index()
     {
         return Company::all();
@@ -22,6 +28,8 @@ class CompanyController extends Controller
     public function store(Request $request): JsonResponse
     {
         $company = new Company();
+
+        validator($request->all(), self::COMPANY_VALIDATION_RULES)->validate();
 
         $company->name = $request->json()->get('name');
         $company->email = $request->json()->get('email');

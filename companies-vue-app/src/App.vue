@@ -83,7 +83,7 @@ export default {
         this.companyService = new CompanyService();
     },
     mounted() {
-        this.companyService.getCompanies().then(data => {this.companies = data ; console.log(data)});
+        this.companyService.getCompanies().then(data => {this.companies = data ; });
     },
     methods: {
         edit(company) {

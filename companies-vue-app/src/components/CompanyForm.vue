@@ -25,33 +25,32 @@
 
 import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
-// import FileUpload from 'primevue/fileupload';
 import Button from 'primevue/button';
+import CompanyService from "./service/CompanyService";
 
 export default {
     data() {
         return {
-            // display: this.displayForm,  // getting from prop
             name: '',
             email: '',
             phone: ''
         }
     },
+    companyService: null,
+    created() {
+        this.companyService = new CompanyService();
+    },
     methods: {
         async addCompany() {
-            console.log('test' + this.name);
             // todo use base url
-            await fetch('http://localhost:8000/index.php/api/companies', {
-                method: 'POST',
-                body: JSON.stringify({name: this.name, email: this.email, phone: this.phone})
-            })
+
+            this.companyService.create(this.name, this.email, this.phone);
 
             this.name = '';
             this.email = '';
             this.phone = '';
             this.$emit('update:display-form', false);
 
-            // const company = await res.json();
             // todo add to array of companies, array can be in different component
         }
     },
