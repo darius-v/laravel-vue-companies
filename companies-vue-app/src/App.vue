@@ -33,15 +33,9 @@
             <Button @click="updateCompany(companyBeingEdited)" label="Submit" />
         </div>
 
-        <h5>Logo - uploads on select file</h5>
-<!--        <FileUpload name="logo[]" url="./api/companies/{{companyBeingEdited.id}}/logo" />-->
+        <h5>Logo</h5>
 <!--        todo base url use-->
-        <FileUpload name="logo[]" v-bind:url="`http://localhost:8000/index.php/api/companies/${companyBeingEdited.id}/logo`" />
-
-
-
-<!--        {{companyBeingEdited.id}}-->
-
+        <FileUpload name="logo" v-bind:url="`http://localhost:8000/index.php/api/companies/${companyBeingEdited.id}/logo`" />
         <div
             class="static"
             v-bind:class="{ active: isActive, 'text-danger': hasError }"

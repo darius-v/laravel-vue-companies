@@ -41,40 +41,25 @@ class CompanyController extends Controller
 
     public function uploadLogo(Request $request, int $companyId)
     {
-
-
 //        $request->validate([ // todo this create cors error
 //            'file' => 'required|mimes:jpg,jpeg,png|max:2048'
 //        ]);
 
-
-
         $company = Company::findOrFail($companyId);
 
+        $file = $request->file('logo');
 
-        if($request->file()) {
+        $name = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->storeAs('uploads', $name, 'public');
 
-            // ten logo[] siuncia bet jei parasayu cia logo[] tai irgi klaida. Neikertu.
-//            $path = $request->file('logo')[]->store('avatars');
+        $company->logo = '/storage/' . $filePath;
+        if (strlen($company->logo) > 256) {
+            return response(['error' => 'Filename too long ']);
+        } else {
+            $company->save();
 
-            $files = $request->file('logo');
-
-
-//            print_r($file);
-
-            $name = time().'_'.$files[0]->getClientOriginalName();
-//            $filePath = $request->file('file')->storeAs('uploads', $name, 'public');
-//
-//            $company->logo = '/storage/' . $filePath . '/' . time().'_'.$request->file->getClientOriginalName();;
-//            if (strlen($company->logo) > 256) {
-//                return response(['error' => 'Filename too long ']);
-//            } else {
-//                $company->save();
-//
-//                return response([]);
-//            }
+            return response([]);
         }
-        return response([]);
     }
 //
 //    public function delete(Article $article)
