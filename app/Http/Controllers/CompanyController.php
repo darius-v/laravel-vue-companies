@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 class CompanyController extends Controller
 {
@@ -41,9 +42,13 @@ class CompanyController extends Controller
 
     public function uploadLogo(Request $request, int $companyId)
     {
-//        $request->validate([ // todo this create cors error
-//            'file' => 'required|mimes:jpg,jpeg,png|max:2048'
-//        ]);
+        try {
+            $request->validate([
+                'logo' => 'required|mimes:jpg,jpeg,png|max:2048'
+            ]);
+        } catch (Throwable $e) {
+            return response(['error' => $e->getMessage()]);
+        }
 
         $company = Company::findOrFail($companyId);
 
@@ -54,7 +59,7 @@ class CompanyController extends Controller
 
         $company->logo = '/storage/' . $filePath;
         if (strlen($company->logo) > 256) {
-            return response(['error' => 'Filename too long ']);
+            return response(['error' => 'Filename too long']);
         } else {
             $company->save();
 
