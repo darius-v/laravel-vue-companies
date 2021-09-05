@@ -8,7 +8,6 @@ const baseUrl = 'http://localhost:8000';
 
 export default class CompanyService {
 
-
     getCompanies() {
         return axios.get(baseUrl + '/index.php/api/companies').then(
             res => res.data
@@ -25,7 +24,7 @@ export default class CompanyService {
     }
 
     update(company) {
-        axios.put(baseUrl + '/api/companies/' + company.id, {
+        return axios.put(baseUrl + '/api/companies/' + company.id, {
                 name: company.name,
                 email: company.email,
                 phone: company.phone

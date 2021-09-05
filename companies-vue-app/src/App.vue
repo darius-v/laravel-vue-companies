@@ -98,8 +98,21 @@ export default {
             this.editCompanyMessages = []; // clearing messages from previous edit
         },
         updateCompany(company) {
-            this.companyService.update(company);
-            this.displayEditForm = false;
+            this.companyService.update(company)
+                .then(() => {
+                    this.displayEditForm = false;
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+
+                        let object = error.response.data.errors;
+                        for (const property in object) {
+                            this.editCompanyMessages.push({severity: 'error', content: `${object[property]}`});
+                        }
+                    }
+                });
         },
         beforeUpload(request) {
             // so that laravel would return json response on validation error
@@ -113,12 +126,12 @@ export default {
             for (const property in object) {
                 const message = `${object[property]}`;
 
-                this.editCompanyMessages.push(Object.create({severity: 'error', content: message}));
+                this.editCompanyMessages.push({severity: 'error', content: message});
             }
         },
         onUploadComplete() {
             this.editCompanyMessages = [];
-            this.editCompanyMessages.push(Object.create({severity: 'success', content: 'File uploaded'}));
+            this.editCompanyMessages.push({severity: 'success', content: 'File uploaded'});
         }
     }
 }

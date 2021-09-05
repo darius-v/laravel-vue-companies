@@ -43,10 +43,12 @@ class CompanyController extends Controller
 
     public function update(Request $request, int $id)
     {
+        validator($request->all(), self::COMPANY_VALIDATION_RULES)->validate();
+
         $company = Company::findOrFail($id);
         $company->update($request->all());
 
-        return response()->json($request->all(), 200);
+        return response()->json($request->all());
     }
 
     public function uploadLogo(Request $request, int $companyId)
