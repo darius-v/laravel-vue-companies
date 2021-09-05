@@ -31,6 +31,13 @@ export default class CompanyService {
             }
         )
     }
+
+    addContact(companyId, contactId) {
+        return axios.patch(baseUrl + '/api/companies/' + companyId + '/contact', {
+                contactId: contactId
+            }
+        )
+    }
 }
 
 </script>

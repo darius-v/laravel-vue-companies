@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Contact;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Throwable;
 
 class CompanyController extends Controller
 {
@@ -20,12 +21,6 @@ class CompanyController extends Controller
     {
         return Company::all();
     }
-
-//
-//    public function show(Article $article)
-//    {
-//        return $article;
-//    }
 
     public function store(Request $request): JsonResponse
     {
@@ -49,7 +44,7 @@ class CompanyController extends Controller
         return response()->json(['message' => $message], 201);
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $id): JsonResponse
     {
         validator($request->all(), self::COMPANY_VALIDATION_RULES)->validate();
 
@@ -59,7 +54,7 @@ class CompanyController extends Controller
         return response()->json($request->all());
     }
 
-    public function uploadLogo(Request $request, int $companyId)
+    public function uploadLogo(Request $request, int $companyId): Response
     {
         $request->validate([
             'logo' => 'required|mimes:jpg,jpeg,png|max:2048'
@@ -80,6 +75,17 @@ class CompanyController extends Controller
 
             return response([]);
         }
+    }
+
+    public function addContact(Request $request, int $companyId): JsonResponse
+    {
+        $company = Company::findOrFail($companyId);
+
+        $contact = Contact::find($request->json()->get('contactId'));
+
+        $company->contacts()->attach($contact);
+
+        return response()->json();
     }
 //
 //    public function delete(Article $article)

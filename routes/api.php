@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ContactController;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,10 @@ Route::get('/companies', [CompanyController::class, 'index']);
 Route::post('/companies', [CompanyController::class, 'store']);
 Route::put('companies/{id}', [CompanyController::class, 'update']);
 Route::post('companies/{id}/logo', [CompanyController::class, 'uploadLogo']);
+Route::patch('companies/{id}/contact', [CompanyController::class, 'addContact']);
+
+Route::get('contacts/{query}', [ContactController::class, 'search']);
+
 
 
 //Route::get('articles/{id}', 'ArticleController@show');

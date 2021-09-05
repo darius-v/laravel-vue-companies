@@ -8,6 +8,7 @@
         <Column field="email" header="Email"></Column>
         <Column>
             <template #body="slotProps">
+                <!--  slotProps.data is company data -->
                 <Button type="button" @click="edit(slotProps.data)" icon="pi pi-pencil" class="p-button-warning"></Button>
             </template>
         </Column>
@@ -47,13 +48,28 @@
             @error="onUploadError"
             @upload="onUploadComplete"
         />
-    </Dialog>
 
+        <h5>Contacts - type to search</h5>
+
+        <!-- field attribute tells which column to display from the search results  -->
+        <AutoComplete
+            :multiple="true"
+            v-model="selectedContacts"
+            :suggestions="filteredContactsMultiple"
+            @complete="searchContactMultiple($event)"
+            @item-select="onContactSelect"
+            @item-unselect="onContactUnSelect"
+            field="name"
+        />
+
+
+    </Dialog>
 </template>
 
 <script>
 import NewCompany from './components/NewCompany'
 import CompanyService from './components/service/CompanyService'
+import ContactService from './components/service/ContactService'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from "primevue/button";
@@ -62,6 +78,7 @@ import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
 import FileUpload from 'primevue/fileupload';
 import Message from 'primevue/message';
+import AutoComplete from 'primevue/autocomplete';
 
 export default {
     name: 'App',
@@ -74,19 +91,24 @@ export default {
         Dialog,
         InputText,
         FileUpload,
-        Message
+        Message,
+        AutoComplete
     },
     data() {
         return {
             companies: null,
             displayEditForm: false,
             companyBeingEdited: null,
-            editCompanyMessages: []
+            editCompanyMessages: [],
+
+            selectedContacts: [],
+            filteredContactsMultiple: [],
         }
     },
     companyService: null,
     created() {
         this.companyService = new CompanyService();
+        this.contactService = new ContactService();
     },
     mounted() {
         this.companyService.getCompanies().then(data => {this.companies = data ; });
@@ -96,6 +118,31 @@ export default {
             this.displayEditForm = true;
             this.companyBeingEdited = company;
             this.editCompanyMessages = []; // clearing messages from previous edit
+            this.selectedContacts = []; // todo
+        },
+        searchContactMultiple(event) {
+
+            const query = event.query.trim();
+
+            if (!query.length) {
+                this.filteredContactsMultiple = [];
+            } else {
+                this.contactService.search(query).then(data => {
+                    this.filteredContactsMultiple = data;
+                });
+            }
+        },
+        onContactSelect(event) {
+            const contact = event.value;
+
+            this.companyService.addContact(this.companyBeingEdited.id, contact.id)
+                .then(() => {
+                    alert('contact added')
+                    }
+                );
+        },
+        onContactUnSelect() {
+
         },
         updateCompany(company) {
             this.companyService.update(company)
@@ -146,4 +193,5 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
 </style>
