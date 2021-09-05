@@ -1,7 +1,8 @@
 <template>
     <NewCompany/>
 
-    <DataTable :value="companies">
+    <DataTable :value="companies" :paginator="true" :rows="10" :lazy="true" ref="dt"
+               :totalRecords="totalRecords" :loading="loading" @page="onPage($event)">
         <!--        todo -->
         <!--        <Column field="logo" header="Logo"></Column>-->
         <Column field="name" header="Company Name"></Column>
@@ -96,13 +97,32 @@ export default {
     },
     data() {
         return {
-            companies: null,
+
             displayEditForm: false,
             companyBeingEdited: null,
             editCompanyMessages: [],
 
             selectedContacts: [],
             filteredContactsMultiple: [],
+
+            // companies table
+            loading: false,
+            totalRecords: 0,
+            companies: null,
+            // filters: {
+            //     'name': {value: '', matchMode: 'contains'},
+            //     'country.name': {value: '', matchMode: 'contains'},
+            //     'company': {value: '', matchMode: 'contains'},
+            //     'representative.name': {value: '', matchMode: 'contains'},
+            // },
+            lazyParams: {},
+            // columns: [
+            //     {field: 'name', header: 'Name'},
+            //     {field: 'country.name', header: 'Country'},
+            //     {field: 'company', header: 'Company'},
+            //     {field: 'representative.name', header: 'Representative'}
+            // ]
+            // end companies table
         }
     },
     companyService: null,
@@ -111,9 +131,30 @@ export default {
         this.contactService = new ContactService();
     },
     mounted() {
-        this.companyService.getCompanies().then(data => {this.companies = data ; });
+        // this.loading = true;
+
+        this.lazyParams = {
+            first: 0,
+            rows: this.$refs.dt.rows,
+            // sortField: null,
+            // sortOrder: null,
+            // filters: this.filters
+        };
+
+        this.loadCompanies();
     },
     methods: {
+        loadCompanies() {
+            this.loading = true
+            this.companyService.getCompanies(
+                {lazyEvent: JSON.stringify( this.lazyParams )}
+            // ).then(data => {this.companies = data ; });
+            ).then(data => {
+                            this.companies = data.companies;
+                            this.totalRecords = data.totalRecords;
+                            this.loading = false;
+            });
+        },
         edit(company) {
             this.displayEditForm = true;
             this.companyBeingEdited = company;
@@ -137,12 +178,14 @@ export default {
 
             this.companyService.addContact(this.companyBeingEdited.id, contact.id)
                 .then(() => {
-                    alert('contact added')
-                    }
-                );
+                    this.setEditSuccessMessage('Contact added');
+                });
         },
         onContactUnSelect() {
 
+        },
+        setEditSuccessMessage(content) {
+            this.editCompanyMessages = [{severity: 'success', content: content}];
         },
         updateCompany(company) {
             this.companyService.update(company)

@@ -17,9 +17,20 @@ class CompanyController extends Controller
         'phone' => 'required|max:256'
     ];
 
-    public function index()
+    public function index(Request $request): array
     {
-        return Company::all();
+//        $query = Company::select('name', 'email', 'phone')
+//            ->orderBy('name');
+//
+//        $length = $request->input('length');
+//
+//        $companies = $query->paginate($length);
+
+//        $paginatedCompanies = DB::table('companies')->paginate(10);
+        // todo get page
+        $paginatedCompanies = DB::table('companies')->get();
+
+        return ['companies' => $paginatedCompanies, 'totalRecords' => Company::count()];
     }
 
     public function store(Request $request): JsonResponse
