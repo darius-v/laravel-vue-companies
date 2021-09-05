@@ -10,15 +10,16 @@ use Throwable;
 class CompanyController extends Controller
 {
     const COMPANY_VALIDATION_RULES = [
-        'name' => 'required|max:1', // todo set back to 256
-        'email' => 'required|max:256',
-        'phone' => 'max:256'
+        'name' => 'required|max:256',
+        'email' => 'required|max:256|email',
+        'phone' => 'required|max:256'
     ];
 
     public function index()
     {
         return Company::all();
     }
+
 //
 //    public function show(Article $article)
 //    {
@@ -50,13 +51,9 @@ class CompanyController extends Controller
 
     public function uploadLogo(Request $request, int $companyId)
     {
-        try {
-            $request->validate([
-                'logo' => 'required|mimes:jpg,jpeg,png|max:2048'
-            ]);
-        } catch (Throwable $e) {
-            return response(['error' => $e->getMessage()]);
-        }
+        $request->validate([
+            'logo' => 'required|mimes:jpg,jpeg,png|max:2048'
+        ]);
 
         $company = Company::findOrFail($companyId);
 

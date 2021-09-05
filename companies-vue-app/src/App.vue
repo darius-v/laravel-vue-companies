@@ -19,6 +19,9 @@
     <CompanyForm  v-model:displayForm="displayForm" />
 
     <Dialog  header="Company edit" :visible="displayEditForm" @update:visible="$emit('update:display-edit-form', $event)">
+
+        <Message v-for="msg of editCompanyMessages" :severity="msg.severity" :key="msg.content">{{msg.content}}</Message>
+
         <h5>Name</h5>
         <InputText type="text" v-model="companyBeingEdited.name" />
 
@@ -28,29 +31,29 @@
         <h5>Phone</h5>
         <InputText type="text" v-model="companyBeingEdited.phone" />
 
-        <!--        todo - after company is created so could assign-->
         <div>
             <Button @click="updateCompany(companyBeingEdited)" label="Submit" />
         </div>
 
         <h5>Logo</h5>
 <!--        todo base url use-->
-        <FileUpload name="logo" v-bind:url="`http://localhost:8000/index.php/api/companies/${companyBeingEdited.id}/logo`" />
-        <div
-            class="static"
-            v-bind:class="{ active: isActive, 'text-danger': hasError }"
-        ></div>
+        <FileUpload
+            name="logo"
+            v-bind:url="`http://localhost:8000/index.php/api/companies/${companyBeingEdited.id}/logo`"
+            accept="image/*"
+            :maxFileSize="2097152"
+            :fileLimit="1"
+            @before-send="beforeUpload"
+            @error="onUploadError"
+            @upload="onUploadComplete"
+        />
     </Dialog>
 
-<!--    <Dialog :visible="displayUploadForm">-->
-<!--        <FileUpload name="logo[]" url="./upload" />-->
-<!--    </Dialog>-->
 </template>
 
 <script>
 import NewCompany from './components/NewCompany'
 import CompanyService from './components/service/CompanyService'
-
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from "primevue/button";
@@ -58,6 +61,7 @@ import CompanyForm from "./components/CompanyForm";
 import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
 import FileUpload from 'primevue/fileupload';
+import Message from 'primevue/message';
 
 export default {
     name: 'App',
@@ -69,13 +73,15 @@ export default {
         CompanyForm,
         Dialog,
         InputText,
-        FileUpload
+        FileUpload,
+        Message
     },
     data() {
         return {
             companies: null,
             displayEditForm: false,
-            companyBeingEdited: null
+            companyBeingEdited: null,
+            editCompanyMessages: []
         }
     },
     companyService: null,
@@ -89,11 +95,31 @@ export default {
         edit(company) {
             this.displayEditForm = true;
             this.companyBeingEdited = company;
+            this.editCompanyMessages = []; // clearing messages from previous edit
         },
         updateCompany(company) {
             this.companyService.update(company);
             this.displayEditForm = false;
         },
+        beforeUpload(request) {
+            // so that laravel would return json response on validation error
+            request.xhr.setRequestHeader('Accept', 'application/json');
+
+            return request;
+        },
+        onUploadError(request) {
+            let object = JSON.parse(request.xhr.responseText).errors;
+
+            for (const property in object) {
+                const message = `${object[property]}`;
+
+                this.editCompanyMessages.push(Object.create({severity: 'error', content: message}));
+            }
+        },
+        onUploadComplete() {
+            this.editCompanyMessages = [];
+            this.editCompanyMessages.push(Object.create({severity: 'success', content: 'File uploaded'}));
+        }
     }
 }
 </script>
