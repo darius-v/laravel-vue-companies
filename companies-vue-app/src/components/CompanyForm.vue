@@ -1,8 +1,11 @@
 <template>
+    <div>
+        <Message v-for="msg of messages" severity="success" :key="msg">{{msg}}</Message>
+    </div>
 
     <!-- that way visibility is controlled from other component  -->
     <Dialog  header="Company" :visible="displayForm" @update:visible="$emit('update:display-form', $event)">
-        <Message v-for="msg of messages" severity="error" :key="msg">{{msg}}</Message>
+        <Message v-for="msg of dialogMessages" severity="error" :key="msg">{{msg}}</Message>
         <h5>Name</h5>
         <InputText type="text" v-model="name" />
         <h5>Email</h5>
@@ -12,9 +15,6 @@
         <InputText type="text" v-model="phone" />
 
 <!--        todo - after company is created so could assign-->
-<!--        <h5>Logo</h5>-->
-<!--        <FileUpload name="demo[]" url="./upload" />-->
-
         <div>
             <Button @click="addCompany" label="Submit" />
         </div>
@@ -36,6 +36,7 @@ export default {
             name: '',
             email: '',
             phone: '',
+            dialogMessages: [],
             messages: []
         }
     },
@@ -46,13 +47,15 @@ export default {
     methods: {
         async addCompany() {
             this.companyService.create(this.name, this.email, this.phone)
-                .then(() => {
+                .then((response) => {
                     this.name = '';
                     this.email = '';
                     this.phone = '';
                     this.$emit('update:display-form', false);
-                    this.messages = [];
+                    this.dialogMessages = [];
+                    this.messages.push(response.data.message);
                 })
+
                 .catch((error) => {
                     if (error.response) {
                         // The request was made and the server responded with a status code
@@ -60,8 +63,7 @@ export default {
 
                         let object = error.response.data.errors;
                         for (const property in object) {
-                            console.log(`${property}: ${object[property]}`);
-                            this.messages.push(`${object[property]}`);
+                            this.dialogMessages.push(`${object[property]}`);
                         }
                     }
                 });

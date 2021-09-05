@@ -37,6 +37,7 @@ export default {
     div {
         border: 1px solid;
         text-align: left;
+        padding: 5px;
     }
 
     /*.p-button {*/

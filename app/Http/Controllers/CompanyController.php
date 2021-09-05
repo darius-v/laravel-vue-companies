@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class CompanyController extends Controller
@@ -36,9 +37,16 @@ class CompanyController extends Controller
         $company->email = $request->json()->get('email');
         $company->phone = $request->json()->get('phone');
 
+        $possibleDuplicatesExist = $this->doDuplicatesExist($company);
+
         $company->save();
 
-        return response()->json([], 201);
+        $message = 'Company created';
+        if ($possibleDuplicatesExist) {
+            $message .= ' but there is possible duplicate';
+        }
+
+        return response()->json(['message' => $message], 201);
     }
 
     public function update(Request $request, int $id)
@@ -80,4 +88,15 @@ class CompanyController extends Controller
 //
 //        return response()->json(null, 204);
 //    }
+    private function doDuplicatesExist(Company $company): bool
+    {
+        // todo move to repository
+        $companies = DB::table('companies')
+            ->where('name', '=', $company->name)
+            ->orWhere('email', $company->email)
+            ->orWhere('phone', $company->phone)
+            ->get();
+
+        return count($companies) > 0;
+    }
 }
