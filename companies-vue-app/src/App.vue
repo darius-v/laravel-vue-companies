@@ -2,7 +2,9 @@
     <NewCompany/>
 
     <DataTable :value="companies" :paginator="true" :rows="10" :lazy="true" ref="dt"
-               :totalRecords="totalRecords" :loading="loading" @page="onPage($event)">
+               :totalRecords="totalRecords" :loading="loading" @page="onPage($event)"
+               paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+               currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
         <!--        todo -->
         <!--        <Column field="logo" header="Logo"></Column>-->
         <Column field="name" header="Company Name"></Column>
