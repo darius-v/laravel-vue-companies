@@ -5,8 +5,12 @@
                :totalRecords="totalRecords" :loading="loading" @page="onPage($event)"
                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-        <!--        todo -->
-        <!--        <Column field="logo" header="Logo"></Column>-->
+        <Column field="logo" header="Logo">
+            <template #body="slotProps">
+<!--                todo base url from config-->
+                <img v-if="slotProps.data.logo !== null" v-bind:src="`http://localhost:8000${slotProps.data.logo}`" width="50">
+            </template>
+        </Column>
         <Column field="name" header="Company Name"></Column>
         <Column field="email" header="Email"></Column>
         <Column>
