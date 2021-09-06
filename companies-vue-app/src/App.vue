@@ -19,7 +19,7 @@
                 <Button type="button" @click="edit(slotProps.data)" icon="pi pi-pencil" class="p-button-warning"></Button>
             </template>
         </Column>
-<!--        <Column field="contact_count" header="Contact count"></Column>-->
+        <Column field="contact_count" header="Contact count"></Column>
 
     </DataTable>
 

@@ -28,6 +28,9 @@ class CompanyController extends Controller
         }
 
         $paginatedCompanies = DB::table('companies')
+            ->select('companies.id', 'name', 'email', 'phone', DB::raw("COUNT('company_contact.id') AS contact_count"))
+            ->leftJoin('company_contact', 'company_contact.company_id', '=', 'companies.id')
+            ->groupBy('companies.id')
             ->orderBy('name', 'asc')
             ->offset($page * $pageParameters['rows'])
             ->limit($pageParameters['rows'])
