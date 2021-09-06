@@ -63,7 +63,6 @@
             v-bind:url="`http://localhost:8000/index.php/api/companies/${companyBeingEdited.id}/logo`"
             accept="image/*"
             :maxFileSize="2097152"
-            :fileLimit="1"
             @before-send="beforeUpload"
             @error="onUploadError"
             @upload="onUploadComplete"

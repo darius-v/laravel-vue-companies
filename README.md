@@ -11,3 +11,6 @@
 * `npm run serve`
 
 * Open in browser: http://localhost:8080/ .
+
+### How to use
+* When entered text in companies table search field - press enter to filter results.

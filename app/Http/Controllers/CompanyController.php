@@ -99,6 +99,7 @@ class CompanyController extends Controller
         $name = time() . '_' . $file->getClientOriginalName();
         $filePath = $file->storeAs('uploads', $name, 'public');
 
+        // todo - remove previous file
         $company->logo = '/storage/' . $filePath;
         if (strlen($company->logo) > 256) {
             return response(['error' => 'Filename too long']);
