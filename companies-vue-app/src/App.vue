@@ -116,12 +116,6 @@ export default {
             //     'representative.name': {value: '', matchMode: 'contains'},
             // },
             lazyParams: {},
-            // columns: [
-            //     {field: 'name', header: 'Name'},
-            //     {field: 'country.name', header: 'Country'},
-            //     {field: 'company', header: 'Company'},
-            //     {field: 'representative.name', header: 'Representative'}
-            // ]
             // end companies table
         }
     },
@@ -147,13 +141,16 @@ export default {
         loadCompanies() {
             this.loading = true
             this.companyService.getCompanies(
-                {lazyEvent: JSON.stringify( this.lazyParams )}
-            // ).then(data => {this.companies = data ; });
+                { lazyEvent: JSON.stringify( this.lazyParams ) }
             ).then(data => {
                             this.companies = data.companies;
                             this.totalRecords = data.totalRecords;
                             this.loading = false;
             });
+        },
+        onPage(event) {
+            this.lazyParams = event;
+            this.loadCompanies();
         },
         edit(company) {
             this.displayEditForm = true;

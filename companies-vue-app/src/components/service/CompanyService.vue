@@ -8,8 +8,8 @@ const baseUrl = 'http://localhost:8000';
 
 export default class CompanyService {
 
-    getCompanies() {
-        return axios.get(baseUrl + '/index.php/api/companies').then(
+    getCompanies(params) {
+        return axios.get(baseUrl + '/index.php/api/companies', { params }).then(
             res => res.data
         );
     }

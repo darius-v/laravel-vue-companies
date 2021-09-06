@@ -19,16 +19,19 @@ class CompanyController extends Controller
 
     public function index(Request $request): array
     {
-//        $query = Company::select('name', 'email', 'phone')
-//            ->orderBy('name');
-//
-//        $length = $request->input('length');
-//
-//        $companies = $query->paginate($length);
+        $pageParameters = json_decode($request->get('lazyEvent'), true);
 
-//        $paginatedCompanies = DB::table('companies')->paginate(10);
-        // todo get page
-        $paginatedCompanies = DB::table('companies')->get();
+        if (isset($pageParameters['page'])) {
+            $page = $pageParameters['page'];
+        } else {
+            $page = 0;
+        }
+
+        $paginatedCompanies = DB::table('companies')
+            ->orderBy('name', 'asc')
+            ->offset($page * $pageParameters['rows'])
+            ->limit($pageParameters['rows'])
+            ->get();
 
         return ['companies' => $paginatedCompanies, 'totalRecords' => Company::count()];
     }
