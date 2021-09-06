@@ -4,14 +4,27 @@
     <DataTable :value="companies" :paginator="true" :rows="10" :lazy="true" ref="dt"
                :totalRecords="totalRecords" :loading="loading" @page="onPage($event)"
                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-               currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+               currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+               v-model:filters="filters" filterDisplay="row"
+               :globalFilterFields="['name']"
+    >
+        <template #header>
+            <div id="search">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search" />
+                    <InputText v-model="filters['name'].value" placeholder="Search..." @keydown.enter="filter()" />
+                </span>
+            </div>
+        </template>
         <Column field="logo" header="Logo">
             <template #body="slotProps">
 <!--                todo base url from config-->
                 <img v-if="slotProps.data.logo !== null" v-bind:src="`http://localhost:8000${slotProps.data.logo}`" width="50">
             </template>
         </Column>
-        <Column field="name" header="Company Name"></Column>
+
+        <Column field="name" header="Company Name" filterMatchMode="startsWith" ref="name">
+        </Column>
         <Column field="email" header="Email"></Column>
         <Column>
             <template #body="slotProps">
@@ -87,6 +100,7 @@ import FileUpload from 'primevue/fileupload';
 import Message from 'primevue/message';
 import AutoComplete from 'primevue/autocomplete';
 
+
 export default {
     name: 'App',
     components: {
@@ -115,12 +129,13 @@ export default {
             loading: false,
             totalRecords: 0,
             companies: null,
-            // filters: {
-            //     'name': {value: '', matchMode: 'contains'},
-            //     'country.name': {value: '', matchMode: 'contains'},
-            //     'company': {value: '', matchMode: 'contains'},
-            //     'representative.name': {value: '', matchMode: 'contains'},
-            // },
+            // filters: null,
+            filters: {
+                'name': {value: '', matchMode: 'contains'},
+                // 'country.name': {value: '', matchMode: 'contains'},
+                // 'company': {value: '', matchMode: 'contains'},
+                // 'representative.name': {value: '', matchMode: 'contains'},
+            },
             lazyParams: {},
             // end companies table
         }
@@ -129,6 +144,7 @@ export default {
     created() {
         this.companyService = new CompanyService();
         this.contactService = new ContactService();
+        // this.initFilters1();
     },
     mounted() {
         // this.loading = true;
@@ -138,11 +154,14 @@ export default {
             rows: this.$refs.dt.rows,
             // sortField: null,
             // sortOrder: null,
-            // filters: this.filters
+            filters: this.filters
         };
 
         this.loadCompanies();
     },
+
+
+
     methods: {
         loadCompanies() {
             this.loading = true
@@ -153,6 +172,27 @@ export default {
                             this.totalRecords = data.totalRecords;
                             this.loading = false;
             });
+        },
+        // filterCallback() {
+        //     console.log('asd');
+        // },
+        // initFilters1() {
+        //     this.filters1 = {
+        //         // 'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
+        //         'name': {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}]},
+        //         // 'country.name': {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}]},
+        //         // 'representative': {value: null, matchMode: FilterMatchMode.IN},
+        //         // 'date': {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.DATE_IS}]},
+        //         // 'balance': {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.EQUALS}]},
+        //         // 'status': {operator: FilterOperator.OR, constraints: [{value: null, matchMode: FilterMatchMode.EQUALS}]},
+        //         // 'activity': {value: null, matchMode: FilterMatchMode.BETWEEN},
+        //         // 'verified': {value: null, matchMode: FilterMatchMode.EQUALS}
+        //     }
+        // },
+        filter() {
+            console.log('onfilter');
+            this.lazyParams.filters = this.filters;
+            this.loadCompanies();
         },
         onPage(event) {
             this.lazyParams = event;
@@ -238,6 +278,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#search {
+    text-align: right;
 }
 
 </style>

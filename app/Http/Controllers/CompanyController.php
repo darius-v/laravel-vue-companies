@@ -19,24 +19,39 @@ class CompanyController extends Controller
 
     public function index(Request $request): array
     {
-        $pageParameters = json_decode($request->get('lazyEvent'), true);
+        $parameters = json_decode($request->get('lazyEvent'), true);
 
-        if (isset($pageParameters['page'])) {
-            $page = $pageParameters['page'];
+        if (isset($parameters['page'])) {
+            $page = $parameters['page'];
         } else {
             $page = 0;
         }
 
-        $paginatedCompanies = DB::table('companies')
-            ->select('companies.id', 'name', 'email', 'phone', DB::raw("COUNT('company_contact.id') AS contact_count"))
+        $queryBuilder = DB::table('companies')
+
             ->leftJoin('company_contact', 'company_contact.company_id', '=', 'companies.id')
             ->groupBy('companies.id')
-            ->orderBy('name', 'asc')
-            ->offset($page * $pageParameters['rows'])
-            ->limit($pageParameters['rows'])
+        ;
+
+        if (isset($parameters['filters']['name'])) {
+            $queryBuilder
+                ->where('name', 'like', '%' . $parameters['filters']['name']['value'] . '%')
+            ;
+        }
+
+        $total = DB::table('companies')
+            ->whereIn('id', $queryBuilder->select('companies.id'))
+            ->count()
+        ;
+
+        $companies = $queryBuilder
+            ->select('companies.id', 'name', 'email', 'phone', 'logo', DB::raw("COUNT('company_contact.id') AS contact_count"))
+            ->orderBy('name')
+            ->offset($page * $parameters['rows'])
+            ->limit($parameters['rows'])
             ->get();
 
-        return ['companies' => $paginatedCompanies, 'totalRecords' => Company::count()];
+        return ['companies' => $companies, 'totalRecords' => $total];
     }
 
     public function store(Request $request): JsonResponse
