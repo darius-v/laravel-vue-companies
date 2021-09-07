@@ -8,9 +8,7 @@
 * If project is set up, to start it - run `make start`, to stop - `make stop`
 * `cd companies-vue-app`
 * If project is not installed:
-  * `npm install` todo - is this really needed? or those below lines are they needed if this is executed
-  * `npm install primevue@^3.7.0 --save`
-  * `npm install primeicons --save`
+  * `npm install` 
 * `npm run serve`
 * Open in browser: http://localhost:8080/ .
 
