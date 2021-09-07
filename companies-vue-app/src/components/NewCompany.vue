@@ -1,9 +1,7 @@
 <template>
   <div>
-      <Button label="New Company" @click="openNewCompanyDialog"></Button>
-
+      <Button label=" New" @click="openNewCompanyDialog" class="pi pi-plus p-button-success"></Button>
       <CompanyForm v-model:displayForm="displayForm" @created="onCreated" />
-
   </div>
 </template>
 
@@ -21,7 +19,7 @@ export default {
     },
     components: {
         Button,
-        CompanyForm
+        CompanyForm,
     },
     methods: {
         openNewCompanyDialog() {
@@ -39,14 +37,12 @@ export default {
 <style scoped>
 
     div {
-        border: 1px solid;
+        /*border: 1px solid;*/
         text-align: left;
         padding: 5px;
+        background-color: #efefef;
+        margin-bottom: 5px;
     }
 
-    /*.p-button {*/
-    /*    margin: 0.3rem .5rem;*/
-    /*    min-width: 10rem;*/
-    /*}*/
 
 </style>

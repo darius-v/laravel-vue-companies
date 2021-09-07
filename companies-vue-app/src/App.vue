@@ -28,7 +28,7 @@
         <Column>
             <template #body="slotProps">
                 <!--  slotProps.data is company data -->
-                <Button type="button" @click="edit(slotProps.data)" icon="pi pi-pencil" class="p-button-warning"></Button>
+                <Button type="button" @click="edit(slotProps.data)" icon="pi pi-pencil" class="p-button-success"></Button>
             </template>
         </Column>
         <Column field="contact_count" header="Contact count"></Column>
