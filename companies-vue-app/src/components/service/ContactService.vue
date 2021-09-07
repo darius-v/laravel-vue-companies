@@ -3,8 +3,7 @@ import axios from 'axios'
 
 axios.defaults.headers.common['Accept'] = 'application/json'; // for all requests
 
-// todo get base url from config
-const baseUrl = 'http://localhost:8000';
+const baseUrl = process.env.VUE_APP_API_BASE_URL
 
 export default class ContactService {
 

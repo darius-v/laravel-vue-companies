@@ -36,7 +36,7 @@
     </DataTable>
 
 <!--    Probably could use only one Company form tag, and open same on creating new company -->
-    <CompanyForm  v-model:displayForm="displayForm" />
+    <CompanyForm v-model:displayForm="displayForm" />
 
     <Dialog  header="Company edit" v-model:visible="displayEditForm" modal="true">
 
@@ -59,7 +59,7 @@
 <!--        todo base url use-->
         <FileUpload
             name="logo"
-            v-bind:url="`http://localhost:8000/index.php/api/companies/${companyBeingEdited.id}/logo`"
+            v-bind:url="apiBaseUrl + `/index.php/api/companies/${companyBeingEdited.id}/logo`"
             accept="image/*"
             :maxFileSize="2097152"
             @before-send="beforeUpload"
