@@ -6,7 +6,7 @@
 * Run `make init` to initialize project
 
 * If project is set up, to start it - run `make start`, to stop - `make stop`
-
+  
 * `cd companies-vue-app`
 * `npm run serve`
 

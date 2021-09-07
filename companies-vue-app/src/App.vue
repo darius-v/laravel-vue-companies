@@ -18,8 +18,7 @@
         </template>
         <Column field="logo" header="Logo">
             <template #body="slotProps">
-<!--                todo base url from config-->
-                <img v-if="slotProps.data.logo !== null" v-bind:src="`http://localhost:8000${slotProps.data.logo}`" width="50" alt="Logo">
+                <img v-if="slotProps.data.logo !== null" v-bind:src="apiBaseUrl + `${slotProps.data.logo}`" width="50" alt="Logo">
             </template>
         </Column>
 
@@ -116,7 +115,7 @@ export default {
     },
     data() {
         return {
-
+            apiBaseUrl: process.env.VUE_APP_API_BASE_URL,
             displayEditForm: false,
             companyBeingEdited: null,
             editCompanyMessages: [],
@@ -143,7 +142,9 @@ export default {
     created() {
         this.companyService = new CompanyService();
         this.contactService = new ContactService();
-        // this.initFilters1();
+
+        console.log(this.apiBaseUrl);
+
     },
     mounted() {
         // this.loading = true;
