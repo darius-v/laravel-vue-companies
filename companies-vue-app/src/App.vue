@@ -39,7 +39,8 @@
 <!--    Probably could use only one Company form tag, and open same on creating new company -->
     <CompanyForm  v-model:displayForm="displayForm" />
 
-    <Dialog  header="Company edit" :visible="displayEditForm" @update:visible="$emit('update:display-edit-form', $event)">
+    <Dialog  header="Company edit" :visible="displayEditForm" @update:visible="$emit('update:display-edit-form', $event)"
+        modal="true">
 
         <Message v-for="msg of editCompanyMessages" :severity="msg.severity" :key="msg.content">{{msg.content}}</Message>
 

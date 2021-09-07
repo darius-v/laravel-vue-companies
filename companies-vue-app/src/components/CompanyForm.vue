@@ -4,7 +4,8 @@
     </div>
 
     <!-- that way visibility is controlled from other component  -->
-    <Dialog  header="Company" :visible="displayForm" @update:visible="$emit('update:display-form', $event)">
+    <Dialog  header="Company" :visible="displayForm" @update:visible="$emit('update:display-form', $event)"
+             modal="true">
         <Message v-for="msg of dialogMessages" severity="error" :key="msg">{{msg}}</Message>
         <h5>Name</h5>
         <InputText type="text" v-model="name" />
