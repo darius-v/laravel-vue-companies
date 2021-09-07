@@ -19,7 +19,7 @@
         <Column field="logo" header="Logo">
             <template #body="slotProps">
 <!--                todo base url from config-->
-                <img v-if="slotProps.data.logo !== null" v-bind:src="`http://localhost:8000${slotProps.data.logo}`" width="50">
+                <img v-if="slotProps.data.logo !== null" v-bind:src="`http://localhost:8000${slotProps.data.logo}`" width="50" alt="Logo">
             </template>
         </Column>
 
@@ -39,8 +39,7 @@
 <!--    Probably could use only one Company form tag, and open same on creating new company -->
     <CompanyForm  v-model:displayForm="displayForm" />
 
-    <Dialog  header="Company edit" :visible="displayEditForm" @update:visible="$emit('update:display-edit-form', $event)"
-        modal="true">
+    <Dialog  header="Company edit" v-model:visible="displayEditForm" modal="true">
 
         <Message v-for="msg of editCompanyMessages" :severity="msg.severity" :key="msg.content">{{msg.content}}</Message>
 
