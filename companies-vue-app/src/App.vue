@@ -1,5 +1,5 @@
 <template>
-    <NewCompany/>
+    <NewCompany @created="filter" />
 
     <DataTable :value="companies" :paginator="true" :rows="10" :lazy="true" ref="dt"
                :totalRecords="totalRecords" :loading="loading" @page="onPage($event)"
@@ -38,7 +38,7 @@
 <!--    Probably could use only one Company form tag, and open same on creating new company -->
     <CompanyForm v-model:displayForm="displayForm" />
 
-    <Dialog  header="Company edit" v-model:visible="displayEditForm" modal="true">
+    <Dialog  header="Company edit" v-model:visible="displayEditForm" v-bind:modal="true">
 
         <Message v-for="msg of editCompanyMessages" :severity="msg.severity" :key="msg.content">{{msg.content}}</Message>
 
@@ -160,37 +160,18 @@ export default {
         this.loadCompanies();
     },
 
-
-
     methods: {
         loadCompanies() {
-            this.loading = true
+            this.loading = true;
             this.companyService.getCompanies(
                 { lazyEvent: JSON.stringify( this.lazyParams ) }
             ).then(data => {
-                            this.companies = data.companies;
-                            this.totalRecords = data.totalRecords;
-                            this.loading = false;
+                this.companies = data.companies;
+                this.totalRecords = data.totalRecords;
+                this.loading = false;
             });
         },
-        // filterCallback() {
-        //     console.log('asd');
-        // },
-        // initFilters1() {
-        //     this.filters1 = {
-        //         // 'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
-        //         'name': {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}]},
-        //         // 'country.name': {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}]},
-        //         // 'representative': {value: null, matchMode: FilterMatchMode.IN},
-        //         // 'date': {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.DATE_IS}]},
-        //         // 'balance': {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.EQUALS}]},
-        //         // 'status': {operator: FilterOperator.OR, constraints: [{value: null, matchMode: FilterMatchMode.EQUALS}]},
-        //         // 'activity': {value: null, matchMode: FilterMatchMode.BETWEEN},
-        //         // 'verified': {value: null, matchMode: FilterMatchMode.EQUALS}
-        //     }
-        // },
         filter() {
-            console.log('onfilter');
             this.lazyParams.filters = this.filters;
             this.loadCompanies();
         },

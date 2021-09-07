@@ -5,7 +5,7 @@
 
     <!-- that way visibility is controlled from other component  -->
     <Dialog  header="Company" :visible="displayForm" @update:visible="$emit('update:display-form', $event)"
-             modal="true">
+             v-bind:modal="true">
         <Message v-for="msg of dialogMessages" severity="error" :key="msg">{{msg}}</Message>
         <h5>Name</h5>
         <InputText type="text" v-model="name" />
@@ -55,6 +55,7 @@ export default {
                     this.$emit('update:display-form', false);
                     this.dialogMessages = [];
                     this.messages.push(response.data.message);
+                    this.$emit('created')
                 })
 
                 .catch((error) => {
@@ -68,7 +69,6 @@ export default {
                         }
                     }
                 });
-            // todo add to array of companies, array can be in different component
         }
     },
     props: {
@@ -82,6 +82,7 @@ export default {
         Button,
         Message
     },
+    emits: ['created']
 }
 </script>
 

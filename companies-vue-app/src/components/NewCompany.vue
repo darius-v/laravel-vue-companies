@@ -2,7 +2,7 @@
   <div>
       <Button label="New Company" @click="openNewCompanyDialog"></Button>
 
-      <CompanyForm  v-model:displayForm="displayForm" />
+      <CompanyForm v-model:displayForm="displayForm" @created="onCreated" />
 
   </div>
 </template>
@@ -26,8 +26,12 @@ export default {
     methods: {
         openNewCompanyDialog() {
             this.displayForm = true;
+        },
+        onCreated() {
+            this.$emit('created');
         }
-    }
+    },
+    emits: ['created']
 }
 </script>
 
