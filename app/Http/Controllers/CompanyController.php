@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class CompanyController extends Controller
 {
@@ -54,6 +55,9 @@ class CompanyController extends Controller
         return ['companies' => $companies, 'totalRecords' => $total];
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function store(Request $request): JsonResponse
     {
         $company = new Company();
@@ -76,6 +80,9 @@ class CompanyController extends Controller
         return response()->json(['message' => $message], 201);
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function update(Request $request, int $id): JsonResponse
     {
         validator($request->all(), self::COMPANY_VALIDATION_RULES)->validate();
@@ -120,13 +127,7 @@ class CompanyController extends Controller
 
         return response()->json();
     }
-//
-//    public function delete(Article $article)
-//    {
-//        $article->delete();
-//
-//        return response()->json(null, 204);
-//    }
+
     private function doDuplicatesExist(Company $company): bool
     {
         // todo move to repository
