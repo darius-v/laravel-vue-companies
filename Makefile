@@ -1,4 +1,4 @@
-.PHONY: start stop restart init build tests
+.PHONY: start stop restart init
 
 include .env
 export $(shell sed 's/=.*//' .env)
@@ -16,16 +16,8 @@ restart:
 init:
 	docker-compose build
 	docker-compose up -d
-# todo php artisan migrate
-#	docker-compose exec php composer install
-#	docker-compose exec php /app/scripts/wait-for-it.sh mysql:$(MYSQL_PORT) -- echo "mysql is up"
-#	docker-compose exec php php bin/console doctrine:database:create
+	docker-compose exec php composer install
+	docker-compose exec php /app/scripts/wait-for-it.sh mysql:$(MYSQL_PORT) -- echo "mysql is up"
+	docker-compose exec -T mysql mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" -e "create database $(DB_DATABASE)"
 	docker-compose exec php php artisan migrate
-#	docker-compose exec php php bin/console doctrine:migrations:migrate --no-interaction
-#	docker-compose exec php php bin/console doctrine:fixtures:load --no-interaction
 
-build:
-	#build/build.sh
-
-tests:
-	docker-compose exec php php vendor/bin/phpunit
