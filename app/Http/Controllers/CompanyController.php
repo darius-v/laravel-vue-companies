@@ -108,13 +108,16 @@ class CompanyController extends Controller
 
         // todo - remove previous file
         $company->logo = '/storage/' . $filePath;
+        $responseData = [];
         if (strlen($company->logo) > 256) {
-            return response(['error' => 'Filename too long']);
+            $responseData = ['error' => 'Filename too long'];
         } else {
             $company->save();
-
-            return response([]);
         }
+
+        return response($responseData);
+//            ->header('Access-Control-Allow-Origin', '*');
+//        return response()->json();
     }
 
     public function addContact(Request $request, int $companyId): JsonResponse

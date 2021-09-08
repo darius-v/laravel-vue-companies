@@ -29,9 +29,3 @@ Route::patch('companies/{id}/contact', [CompanyController::class, 'addContact'])
 
 Route::get('contacts/{query}', [ContactController::class, 'search']);
 
-
-
-//Route::get('articles/{id}', 'ArticleController@show');
-
-//Route::put('articles/{id}', 'ArticleController@update');
-//Route::delete('articles/{id}', 'ArticleController@delete');

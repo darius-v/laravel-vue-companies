@@ -1,4 +1,5 @@
 <template>
+<!--    todo split to more components -->
     <NewCompany @created="filter" />
 
     <DataTable :value="companies" :paginator="true" :rows="10" :lazy="true" ref="dt"
@@ -59,7 +60,7 @@
 <!--        todo base url use-->
         <FileUpload
             name="logo"
-            v-bind:url="apiBaseUrl + `/index.php/api/companies/${companyBeingEdited.id}/logo`"
+            v-bind:url="apiBaseUrl + `/api/companies/${companyBeingEdited.id}/logo`"
             accept="image/*"
             :maxFileSize="2097152"
             @before-send="beforeUpload"
@@ -97,7 +98,6 @@ import InputText from "primevue/inputtext";
 import FileUpload from 'primevue/fileupload';
 import Message from 'primevue/message';
 import AutoComplete from 'primevue/autocomplete';
-
 
 export default {
     name: 'App',
