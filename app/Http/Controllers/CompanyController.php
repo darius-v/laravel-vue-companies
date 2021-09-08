@@ -29,31 +29,53 @@ class CompanyController extends Controller
         }
 
         $queryBuilder = DB::table('companies')
-
-            ->leftJoin('company_contact', 'company_contact.company_id', '=', 'companies.id')
-            ->groupBy('companies.id')
+            ->selectRaw('count(*) as count')
         ;
 
-        if (isset($parameters['filters']['name'])) {
+        $filter = '';
+        $bindings = [];
+        if (!empty($parameters['filters']['name']['value'])) {
+            $name = $parameters['filters']['name']['value'];
+            $filter = "where name like :name";
+
+            $bindings['name'] = '%' . $name . '%';
             $queryBuilder
-                ->where('name', 'like', '%' . $parameters['filters']['name']['value'] . '%')
+                ->where('name', 'like', '%' . $name . '%')
             ;
         }
 
-        $total = DB::table('companies')
-            ->whereIn('id', $queryBuilder->select('companies.id'))
-            ->count()
-        ;
+        $total = $queryBuilder->get();
 
-        $companies = $queryBuilder
-            ->select('companies.id', 'name', 'email', 'phone', 'logo', DB::raw("COUNT('company_contact.id') AS contact_count"))
-            ->orderBy('name')
-            ->offset($page * $parameters['rows'])
-            ->limit($parameters['rows'])
-            ->get();
+        $companies = DB::select("
+            select id,
+                   name,
+                   email,
+                   logo,
+                   IF(company_contact_ids is null, 0, contact_count) as contact_count
 
-        return ['companies' => $companies, 'totalRecords' => $total];
+            from (
+                select `companies`.`id`,
+                        `name`,
+                        `email`,
+                        `phone`,
+                        `logo`,
+                        COUNT('company_contact.id')      as contact_count,
+                        GROUP_CONCAT(company_contact.id) as company_contact_ids
+                from `companies`
+
+                 left join `company_contact` on `company_contact`.`company_id` = `companies`.`id`
+                $filter
+
+                 group by `companies`.`id`
+
+                 order by `name` asc
+                 limit :limit offset :offset
+            ) as companies;
+        ", array_merge(['limit' => $parameters['rows'], 'offset' => $parameters['rows'] * $page], $bindings));
+
+        return ['companies' => $companies, 'totalRecords' => $total[0]->count];
     }
+
 
     /**
      * @throws ValidationException
