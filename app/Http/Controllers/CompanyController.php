@@ -51,6 +51,7 @@ class CompanyController extends Controller
                    name,
                    email,
                    logo,
+                   phone,
                    IF(company_contact_ids is null, 0, contact_count) as contact_count
 
             from (
