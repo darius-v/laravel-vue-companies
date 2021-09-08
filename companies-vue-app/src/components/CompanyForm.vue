@@ -15,8 +15,7 @@
         <h5>Phone</h5>
         <InputText type="text" v-model="phone" />
 
-<!--        todo - after company is created so could assign-->
-        <div>
+        <div class="button-wrap">
             <Button @click="addCompany" label="Submit" />
         </div>
 
@@ -89,9 +88,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.p-button {
-    margin: 0.3rem .5rem;
-    min-width: 10rem;
+.button-wrap {
+    margin-top: 5px;
 }
 
 </style>

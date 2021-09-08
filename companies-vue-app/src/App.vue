@@ -28,7 +28,7 @@
         <Column>
             <template #body="slotProps">
                 <!--  slotProps.data is company data -->
-                <Button type="button" @click="edit(slotProps.data)" icon="pi pi-pencil" class="p-button-success"></Button>
+                <Button type="button" @click="edit(slotProps.data)" icon="pi pi-pencil" class="p-button-success p-button-rounded"></Button>
             </template>
         </Column>
         <Column field="contact_count" header="Contact count"></Column>
@@ -52,7 +52,7 @@
         <InputText type="text" v-model="companyBeingEdited.phone" />
 
         <div>
-            <Button @click="updateCompany(companyBeingEdited)" label="Submit" />
+            <Button @click="updateCompany(companyBeingEdited)" label="Submit" class="mt-5" />
         </div>
 
         <h5>Logo</h5>
@@ -265,4 +265,7 @@ export default {
     text-align: right;
 }
 
+.p-button.mt-5 {
+    margin-top: 5px;
+}
 </style>
