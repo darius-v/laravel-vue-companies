@@ -58,7 +58,6 @@
         </div>
 
         <h5>Logo</h5>
-<!--        todo base url use-->
         <FileUpload
             name="logo"
             :auto="true"
