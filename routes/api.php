@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/companies', [CompanyController::class, 'index']);
 Route::post('/companies', [CompanyController::class, 'store']);
 Route::put('companies/{id}', [CompanyController::class, 'update']);
+Route::delete('companies/{id}', [CompanyController::class, 'delete']);
 Route::post('companies/{id}/logo', [CompanyController::class, 'uploadLogo']);
 Route::patch('companies/{id}/contact', [CompanyController::class, 'addContact']);
 

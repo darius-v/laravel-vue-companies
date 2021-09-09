@@ -30,6 +30,7 @@
             <template #body="slotProps">
                 <!--  slotProps.data is company data -->
                 <Button type="button" @click="edit(slotProps.data)" icon="pi pi-pencil" class="p-button-success p-button-rounded"></Button>
+                <Button type="button" @click="deleteCompany(slotProps.data.id)" icon="pi pi-trash" class="p-button-warning p-button-rounded"></Button>
             </template>
         </Column>
         <Column field="contact_count" header="Contact count"></Column>
@@ -60,6 +61,7 @@
 <!--        todo base url use-->
         <FileUpload
             name="logo"
+            :auto="true"
             v-bind:url="apiBaseUrl + `/api/companies/${companyBeingEdited.id}/logo`"
             accept="image/*"
             :maxFileSize="2097152"
@@ -184,6 +186,12 @@ export default {
             this.companyBeingEdited = company;
             this.editCompanyMessages = []; // clearing messages from previous edit
             this.selectedContacts = []; // todo
+        },
+        deleteCompany(id) { // delete function name does not work
+            this.companyService.delete(id)
+                .then(() => {
+                    this.loadCompanies();
+                })
         },
         searchContactMultiple(event) {
 

@@ -31,6 +31,10 @@ export default class CompanyService {
         )
     }
 
+    delete(id) {
+        return axios.delete(baseUrl + '/api/companies/' + id)
+    }
+
     addContact(companyId, contactId) {
         return axios.patch(baseUrl + '/api/companies/' + companyId + '/contact', {
                 contactId: contactId

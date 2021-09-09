@@ -139,8 +139,13 @@ class CompanyController extends Controller
         }
 
         return response($responseData);
-//            ->header('Access-Control-Allow-Origin', '*');
-//        return response()->json();
+    }
+
+    public function delete(int $companyId): JsonResponse
+    {
+        Company::destroy($companyId);
+
+        return response()->json();
     }
 
     public function addContact(Request $request, int $companyId): JsonResponse
