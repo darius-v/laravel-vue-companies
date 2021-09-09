@@ -143,6 +143,9 @@ class CompanyController extends Controller
 
     public function delete(int $companyId): JsonResponse
     {
+        $company = Company::findOrFail($companyId);
+
+        $company->contacts()->detach();
         Company::destroy($companyId);
 
         return response()->json();
