@@ -14,3 +14,6 @@
 
 ### How to use
 * When entered text in companies table search field - press enter to filter results.
+
+### Demo video
+https://www.loom.com/share/fbd9dfdc54494e5b8eb66795b80ea492
