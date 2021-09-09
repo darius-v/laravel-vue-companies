@@ -37,7 +37,6 @@
 
     </DataTable>
 
-<!--    Probably could use only one Company form tag, and open same on creating new company -->
     <CompanyForm v-model:displayForm="displayForm" />
 
     <Dialog  header="Company edit" v-model:visible="displayEditForm" v-bind:modal="true">
@@ -131,9 +130,6 @@ export default {
             // filters: null,
             filters: {
                 'name': {value: '', matchMode: 'contains'},
-                // 'country.name': {value: '', matchMode: 'contains'},
-                // 'company': {value: '', matchMode: 'contains'},
-                // 'representative.name': {value: '', matchMode: 'contains'},
             },
             lazyParams: {},
             // end companies table
@@ -143,18 +139,11 @@ export default {
     created() {
         this.companyService = new CompanyService();
         this.contactService = new ContactService();
-
-        console.log(this.apiBaseUrl);
-
     },
     mounted() {
-        // this.loading = true;
-
         this.lazyParams = {
             first: 0,
             rows: this.$refs.dt.rows,
-            // sortField: null,
-            // sortOrder: null,
             filters: this.filters
         };
 
